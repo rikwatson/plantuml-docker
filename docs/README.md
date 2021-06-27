@@ -10,5 +10,6 @@ git config --local core.hooksPath .githooks/
 
 ## Diagram
 
-![Example](./assets/sample-01.png)
+![Sequence Sample](./assets/Sequence%20Sample.png)
 
+![Component Diagram](./assets/Component%20diagram%20for%20Hi.png)
