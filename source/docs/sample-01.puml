@@ -1,7 +1,0 @@
-@startuml Sequence Sample
-Alice -> Rik: Authentication Request
-Rik --> Alice: Authentication Response
-
-Alice -> Rik: Another authentication Request
-Alice <-- Rik: Another authentication Response
-@enduml
