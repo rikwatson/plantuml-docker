@@ -22,6 +22,6 @@ generate="docker run -v $(pwd):/source --rm -i rikwatson/plantuml-docker -r -x \
 eval $generate
 
 # Add generated diagrams to the commit
-git add source/docs/assets
+git add docs/assets
 
 exit 0
