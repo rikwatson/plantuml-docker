@@ -20,6 +20,46 @@ docker run -v path-to-mount:/source --rm -i rikwatson/plantuml-docker source/*.p
 cat sample.puml | docker run --rm -i rikwatson/plantuml-docker > output.png
 ```
 
+### Using pre-commit git hooks
+
+An example pre-commit `git` hook is located in `./.githooks/pre-commit` show below.
+
+#### pre-commit
+
+```bash
+#!/bin/sh
+
+# Check for the existence of Docker
+if ! type docker > /dev/null 2>&1; then
+  echo "# Docker not installed or not in PATH"
+  echo "Skipping PlantUML generation"
+  exit 0
+fi
+
+exec 1>&2
+
+# Get all .puml files from the list of staged files as a flattened, quoted string
+staged=$(git diff-index --cached HEAD --name-only | grep '\.puml$' | sed -e 's/^/"source\//' -e 's/$/" /' | tr -d '\n')
+
+echo "Staged .puml files:"
+echo $staged
+
+# Generate diagrams for the staged .puml files
+generate="docker run -v $(pwd):/source --rm -i rikwatson/plantuml-docker:1.1 -r -x \".git/**\" -o \"/source/docs/assets\" $staged"
+eval $generate
+
+# Add generated diagrams to the commit
+git add docs/assets
+
+exit 0
+```
+
+This hook can be enabled via:
+
+```bash
+git config --local core.hooksPath .githooks/
+```
+
 ### Azure DevOps Pipeline
 
 ```yaml
