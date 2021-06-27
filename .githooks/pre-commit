@@ -7,6 +7,8 @@ if ! type docker > /dev/null 2>&1; then
   exit 0
 fi
 
+echo "Starting PlantUML generation"
+
 exec 1>&2
 
 # Get all .puml files from the list of staged files as a flattened, quoted string
@@ -16,10 +18,10 @@ echo "Staged .puml files:"
 echo $staged
 
 # Generate diagrams for the staged .puml files
-generate="docker run -v $(pwd):/source --rm -i rikwatson/plantuml-docker:1.1 -r -x \".git/**\" -o \"/source/docs/assets\" $staged"
+generate="docker run -v $(pwd):/source --rm -i rikwatson/plantuml-docker -r -x \".git/**\" -o \"/source/docs/assets\" $staged"
 eval $generate
 
 # Add generated diagrams to the commit
-git add docs/assets
+git add source/docs/assets
 
 exit 0
